@@ -43,6 +43,9 @@ public class Nota {
     @Column(name = "data_criacao", nullable = false)
     private OffsetDateTime dataCriacao;
 
+    @Column(name = "eh_compartilha")
+    private boolean ehCompartilhada;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @Column(name = "id_usuario")
