@@ -18,13 +18,11 @@ public class TagNota {
     @Column(name = "id_tag_nota")
     private Long idTagNota;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_nota")
-    @Column(name = "id_nota",  nullable = false)
     private Nota idNota;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tag")
-    @Column(name = "id_tag", nullable = false)
     private Tag idTag;
 }

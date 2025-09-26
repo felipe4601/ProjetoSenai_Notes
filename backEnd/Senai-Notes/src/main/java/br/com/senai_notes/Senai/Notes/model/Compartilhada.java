@@ -20,8 +20,7 @@ public class Compartilhada {
     @Column(name = "id_compartilhada")
     private Integer idCompartilhada;
 
-    @Column(name = "id_usuario")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
     private Usuario idUsuario;
 }

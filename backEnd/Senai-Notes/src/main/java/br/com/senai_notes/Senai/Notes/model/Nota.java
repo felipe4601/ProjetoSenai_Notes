@@ -48,7 +48,6 @@ public class Nota {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @Column(name = "id_usuario")
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
