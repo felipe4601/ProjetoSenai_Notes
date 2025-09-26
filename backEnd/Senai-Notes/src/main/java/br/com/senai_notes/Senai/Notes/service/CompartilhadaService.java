@@ -24,6 +24,16 @@ public class CompartilhadaService {
     }
 
     //Put - Update
+    public Compartilhada atualizarCompartilhada(Integer idCompartilhada, Compartilhada compartilhada){
+        Compartilhada comp = buscarCompartilhadaPorId(idCompartilhada);
+        if(comp == null){
+            return null;
+        }
+        comp.setIdUsuario(compartilhada.getIdUsuario());
+
+        compartilhadaRepository.save(comp);
+        return comp;
+    }
 
     //Delet - Delet
 }
