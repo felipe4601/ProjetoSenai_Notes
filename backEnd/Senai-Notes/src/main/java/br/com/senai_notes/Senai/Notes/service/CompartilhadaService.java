@@ -36,4 +36,12 @@ public class CompartilhadaService {
     }
 
     //Delet - Delet
+    public Compartilhada excluirCompartilhadaPorId(Integer idCompartilhada){
+        Compartilhada comp = buscarCompartilhadaPorId(idCompartilhada);
+        if(comp == null){
+            return null;
+        }
+        compartilhadaRepository.deleteById(idCompartilhada);
+        return comp;
+    }
 }
