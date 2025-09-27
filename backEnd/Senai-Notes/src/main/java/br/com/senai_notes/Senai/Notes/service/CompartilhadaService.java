@@ -5,7 +5,7 @@ import br.com.senai_notes.Senai.Notes.repository.CompartilhadaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CompartilhadaService {
+public class    CompartilhadaService {
 
     private final CompartilhadaRepository compartilhadaRepository;
 
@@ -35,7 +35,7 @@ public class CompartilhadaService {
         return comp;
     }
 
-    //Delet - Delet
+    //Delete - Delete
     public Compartilhada excluirCompartilhadaPorId(Integer idCompartilhada){
         Compartilhada comp = buscarCompartilhadaPorId(idCompartilhada);
         if(comp == null){

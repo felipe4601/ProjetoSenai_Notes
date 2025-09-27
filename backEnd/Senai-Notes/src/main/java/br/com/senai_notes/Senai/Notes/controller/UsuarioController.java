@@ -1,0 +1,36 @@
+package br.com.senai_notes.Senai.Notes.controller;
+
+
+import br.com.senai_notes.Senai.Notes.model.Usuario;
+import br.com.senai_notes.Senai.Notes.repository.UsuarioRepository;
+import br.com.senai_notes.Senai.Notes.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/usuario")
+public class UsuarioController {
+    private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+    //Post - Criar Usuario
+    @PostMapping
+    @Operation(summary = "Criar Usuario")
+    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
+        Usuario user = usuarioService.criarUsuario(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+    //Get - Buscar Usuario
+    @GetMapping
+    @Operation(summary = "Buscar Usuario")
+    public ResponseEntity<?> buscarUsuarioId(Usuario usuario) {
+        Usuario
+    }
+    //Put - Atualizar Usuario
+
+    //Delete - Deletar Usuario
+}

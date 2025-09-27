@@ -32,5 +32,4 @@ public class Usuario {
     @Column(name = "senha", nullable = false, columnDefinition = "TEXT")
     private String senha;
 
-
 }
