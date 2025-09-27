@@ -25,6 +25,7 @@ public class Nota {
     @Column(name="id_nota")
     private Integer idNota;
 
+
     @Column(name = "titulo", nullable = false, columnDefinition = "TEXT")
     private String titulo;
 
@@ -48,7 +49,6 @@ public class Nota {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @Column(name = "id_usuario")
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -18,13 +20,18 @@ public class TagNota {
     @Column(name = "id_tag_nota")
     private Long idTagNota;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     @JoinColumn(name = "id_nota")
-    @Column(name = "id_nota",  nullable = false)
+
     private Nota idNota;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     @JoinColumn(name = "id_tag")
-    @Column(name = "id_tag", nullable = false)
     private Tag idTag;
+
+
+
+
 }
