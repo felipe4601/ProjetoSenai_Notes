@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioController {
@@ -27,8 +29,15 @@ public class UsuarioController {
     //Get - Buscar Usuario
     @GetMapping
     @Operation(summary = "Buscar Usuario")
-    public ResponseEntity<?> buscarUsuarioId(Usuario usuario) {
-        Usuario
+    public ResponseEntity<?> buscarUsuarioId(Integer id) {
+        Usuario user = usuarioService.buscarUsuarioPorId(id);
+        return ResponseEntity.ok(user);
+    }
+    @GetMapping
+    @Operation(summary = "Buscar Usuario por email")
+    public List<Usuario> buscarUsuarioEmail(String email) {
+        List<Usuario> user = usuarioService.buscarUsuarioPorEmail(email);
+        return user;
     }
     //Put - Atualizar Usuario
 
