@@ -2,7 +2,6 @@ package br.com.senai_notes.Senai.Notes.controller;
 
 
 import br.com.senai_notes.Senai.Notes.model.Usuario;
-import br.com.senai_notes.Senai.Notes.repository.UsuarioRepository;
 import br.com.senai_notes.Senai.Notes.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
@@ -33,12 +32,12 @@ public class UsuarioController {
         Usuario user = usuarioService.buscarUsuarioPorId(id);
         return ResponseEntity.ok(user);
     }
-    @GetMapping
-    @Operation(summary = "Buscar Usuario por email")
-    public List<Usuario> buscarUsuarioPorEmail(String email) {
-        return usuarioService.buscarUsuarioPorEmail(email);
-
-    }
+//    @GetMapping
+//    @Operation(summary = "Buscar Usuario por email")
+//    public List<Usuario> buscarUsuarioPorEmail(String email) {
+//        return usuarioService.buscarUsuarioPorEmail(email);
+//
+//    }
     //Put - Atualizar Usuario
 
     //Delete - Deletar Usuario
