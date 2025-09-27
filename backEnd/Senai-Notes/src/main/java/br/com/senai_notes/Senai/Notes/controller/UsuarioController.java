@@ -35,9 +35,9 @@ public class UsuarioController {
     }
     @GetMapping
     @Operation(summary = "Buscar Usuario por email")
-    public List<Usuario> buscarUsuarioEmail(String email) {
-        List<Usuario> user = usuarioService.buscarUsuarioPorEmail(email);
-        return user;
+    public List<Usuario> buscarUsuarioPorEmail(String email) {
+        return usuarioService.buscarUsuarioPorEmail(email);
+
     }
     //Put - Atualizar Usuario
 
