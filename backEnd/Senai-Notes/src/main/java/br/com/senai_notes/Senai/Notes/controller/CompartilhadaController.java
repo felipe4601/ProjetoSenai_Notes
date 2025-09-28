@@ -54,7 +54,7 @@ public class CompartilhadaController {
     public ResponseEntity<?> deletarCompartilhada(@PathVariable("id") Integer id){
         Compartilhada comp = compartilhadaService.buscarCompartilhadaPorId(id);
         if(comp == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado.");
         }
         return ResponseEntity.ok(comp);
     }
