@@ -5,7 +5,7 @@ import br.com.senai_notes.Senai.Notes.repository.CompartilhadaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CompartilhadaService {
+public class    CompartilhadaService {
 
     private final CompartilhadaRepository compartilhadaRepository;
 
@@ -24,6 +24,24 @@ public class CompartilhadaService {
     }
 
     //Put - Update
+    public Compartilhada atualizarCompartilhada(Integer idCompartilhada, Compartilhada compartilhada){
+        Compartilhada comp = buscarCompartilhadaPorId(idCompartilhada);
+        if(comp == null){
+            return null;
+        }
+        comp.setIdUsuario(compartilhada.getIdUsuario());
 
-    //Delet - Delet
+        compartilhadaRepository.save(comp);
+        return comp;
+    }
+
+    //Delete - Delete
+    public Compartilhada excluirCompartilhadaPorId(Integer idCompartilhada){
+        Compartilhada comp = buscarCompartilhadaPorId(idCompartilhada);
+        if(comp == null){
+            return null;
+        }
+        compartilhadaRepository.deleteById(idCompartilhada);
+        return comp;
+    }
 }

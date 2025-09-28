@@ -21,17 +21,12 @@ public class TagNota {
     private Long idTagNota;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_nota")
-
     private Nota idNota;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tag")
     private Tag idTag;
-
-
-
-
 }
