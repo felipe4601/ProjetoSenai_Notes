@@ -36,6 +36,7 @@ public class NotaController {
     }
 
     // UPDATE
+    //
     // Método para atualizar nota
     @PutMapping("/{id}")
     public ResponseEntity<?> editarNota(@PathVariable Integer id, @RequestBody Nota notaAtualizada){
