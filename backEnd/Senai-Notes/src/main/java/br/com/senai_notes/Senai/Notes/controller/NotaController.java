@@ -15,5 +15,5 @@ public class NotaController {
         this.notaService = notaService;
     }
 
-    @GetMapping("/{email}")
+  //  @GetMapping("/{email}")
 }
