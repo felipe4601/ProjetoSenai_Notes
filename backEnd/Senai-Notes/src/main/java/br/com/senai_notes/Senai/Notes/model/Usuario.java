@@ -26,11 +26,11 @@ public class Usuario {
 
     @Email
     @NotBlank
+
     @Column(name = "email", nullable = false, columnDefinition = "TEXT")
     private String email;
 
     @Column(name = "senha", nullable = false, columnDefinition = "TEXT")
     private String senha;
-
 
 }
