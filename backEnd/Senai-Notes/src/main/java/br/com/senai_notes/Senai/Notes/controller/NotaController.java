@@ -15,6 +15,7 @@ public class NotaController {
         this.notaService = notaService;
     }
 
+<<<<<<< HEAD
     // CRUD
     // Método para cadastrar nota
     @PostMapping
@@ -46,4 +47,7 @@ public class NotaController {
         return ResponseEntity.noContent().build();
     }
 
+=======
+  //  @GetMapping("/{email}")
+>>>>>>> 75020aa (add)
 }
