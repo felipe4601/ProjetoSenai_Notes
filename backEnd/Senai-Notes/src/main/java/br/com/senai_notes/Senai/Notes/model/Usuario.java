@@ -36,4 +36,6 @@ public class Usuario {
     @Column(name = "senha", nullable = false, columnDefinition = "TEXT")
     private String senha;
 
+    @Column(name = "nome", nullable = true, columnDefinition = "TEXT")
+    private String nome;
 }

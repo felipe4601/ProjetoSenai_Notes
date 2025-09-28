@@ -14,6 +14,6 @@ public class ListarAnotacoesDto {
     private String imagem;
     private String estadoNota;
     private OffsetDateTime dataEdicao;
-    private List<ListarTagDto> tag;
+    private List<String> tag;
 
 }

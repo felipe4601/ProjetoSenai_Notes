@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -57,6 +58,7 @@ public class Nota {
     @JoinColumn(name = "id_compartilhada", nullable = true)
     private Compartilhada compartilhada;
 
-
+    @OneToMany(mappedBy = "nota")
+    private List<TagNota> associacoes;
 
 }

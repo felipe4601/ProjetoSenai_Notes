@@ -26,10 +26,9 @@ public class TagNotaService {
         this.tagRepository = tagRepository;
         this.tagNotaRepository = tagNotaRepository;
     }
-    // CREATE
-    // Método para associar tag com nota
-    public List<TagNota> associarTagENota(CadastrarEditarAnotacaoDto dto) {
 
+<<<<<<< HEAD
+=======
         List<TagNota> novasAssociacoes = new ArrayList<>();
         List<Tag> tagsAssociadas = tagRepository.findAllById(dto.getIdTag());
         Nota notasAssociada = notaRepository.findById(dto.getIdNota())
@@ -50,14 +49,17 @@ public class TagNotaService {
     }
 
 
-    //Creat
+    //Create
     public TagNota criarTagNota(TagNota tagNota){
        return tagNotaRepository.save(tagNota);
 
     }
     //Read
-
+    public List<TagNota> buscarTagNota(){
+        return tagNotaRepository.findAll();
+    }
     //Update
 
     //Delete
+>>>>>>> 614082a71936a230b9bf3c7c0ed01fa9c1d5c54b
 }

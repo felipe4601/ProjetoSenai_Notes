@@ -12,5 +12,6 @@ import java.util.Optional;
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
     List<Tag> findByUsuarioEmailIgnoreCase(String email);
+    List<Tag> findAllByNomeAndUsuarioEmail(String nome, String email);
 
 }
