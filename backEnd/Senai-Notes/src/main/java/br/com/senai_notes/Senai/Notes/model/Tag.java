@@ -20,6 +20,7 @@ public class Tag {
     @Column(name = "id_tag")
     private Integer idTag;
 
+
     @Column(name = "nome")
     private String nome;
 
@@ -29,4 +30,11 @@ public class Tag {
 
     private Usuario  usuario;
 
+    public Integer getIdTag() {
+        return idTag;
+    }
+
+    public void setIdTag(Integer idTag) {
+        this.idTag = idTag;
+    }
 }

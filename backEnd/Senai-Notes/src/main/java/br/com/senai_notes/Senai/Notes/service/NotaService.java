@@ -60,22 +60,21 @@ public class NotaService {
     public Nota atualizarNota(Integer id, Nota novaNota){
         Nota notaExistente = buscarPorId(id);
         // Atualizando titulo
-        notaExistente.setTitulo((novaNota.getTitulo()!=null && novaNota.getTitulo().isBlank())
-                ? notaExistente.getTitulo() : novaNota.getTitulo());
+        notaExistente.setTitulo((novaNota.getTitulo()!=null && !novaNota.getTitulo().isBlank())
+                ? novaNota.getTitulo() : notaExistente.getTitulo());
         // Atualizando descrição
-        notaExistente.setDescricao((novaNota.getDescricao()!=null && novaNota.getDescricao().isBlank())
-                ? notaExistente.getDescricao() : novaNota.getDescricao());
+        notaExistente.setDescricao((novaNota.getDescricao()!=null && !novaNota.getDescricao().isBlank())
+                ? novaNota.getDescricao() : notaExistente.getDescricao());
         // Atualizando imagen
-        notaExistente.setImagem((novaNota.getImagem()!=null && novaNota.getImagem().isBlank())
-                ? notaExistente.getImagem() : novaNota.getImagem());
+        notaExistente.setImagem((novaNota.getImagem()!=null && !novaNota.getImagem().isBlank())
+                ? novaNota.getImagem() : notaExistente.getImagem());
         // Atualizando data de edição
         notaExistente.setDataEdicao(OffsetDateTime.now());
         // Atualizando estado da nota
-        notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && novaNota.getEstadoNota().isBlank())
-            ? notaExistente.getEstadoNota() : novaNota.getEstadoNota());
+        notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && !novaNota.getEstadoNota().isBlank())
+            ? novaNota.getEstadoNota() : notaExistente.getEstadoNota());
         // Atualizando ehCompartilhada
         notaExistente.setEhCompartilhada(novaNota.isEhCompartilhada());
-        novaNota.setDataCriacao(notaExistente.getDataCriacao());
         // Atualizando usuario
         if(novaNota.getUsuario()!=null && novaNota.getUsuario().getIdUsuario()!=null){
             Integer idUsuarioAssociado = novaNota.getUsuario().getIdUsuario();
@@ -89,8 +88,12 @@ public class NotaService {
             Integer idCompartilhamentoAssociado = novaNota.getCompartilhada().getIdCompartilhada();
             Compartilhada compartilhamentoAssociado = compartilhadaRepository.findById(idCompartilhamentoAssociado)
                     .orElseThrow(() -> new ResourceNotFoundException("Compartilhamento"));
+            notaExistente.setCompartilhada(compartilhamentoAssociado);
         }
-       return notaRepository.save(novaNota);
+        else {
+            notaExistente.setCompartilhada(null);
+        }
+       return notaRepository.save(notaExistente);
     }
 
     // DELETE
