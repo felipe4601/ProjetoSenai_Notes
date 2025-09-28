@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface NotaRepository extends JpaRepository<Nota, Integer> {
     List<Nota> findByUsuarioEmail(String email);
+
 }
