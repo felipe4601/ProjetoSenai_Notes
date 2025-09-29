@@ -32,12 +32,12 @@ public class UsuarioController {
         Usuario user = usuarioService.buscarUsuarioPorId(id);
         return ResponseEntity.ok(user);
     }
-//    @GetMapping
-//    @Operation(summary = "Buscar Usuario por email")
-//    public List<Usuario> buscarUsuarioPorEmail(String email) {
-//        return usuarioService.buscarUsuarioPorEmail(email);
-//
-//    }
+    @GetMapping
+    @Operation(summary = "Buscar Usuario por email")
+    public List<Usuario> buscarUsuarioPorEmail(String email) {
+        return usuarioService.buscarUsuarioPorEmail(email);
+
+    }
     //Put - Atualizar Usuario
 
     //Delete - Deletar Usuario
