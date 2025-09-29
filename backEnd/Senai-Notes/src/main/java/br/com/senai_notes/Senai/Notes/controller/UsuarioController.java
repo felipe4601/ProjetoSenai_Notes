@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuario")
@@ -32,13 +33,23 @@ public class UsuarioController {
         Usuario user = usuarioService.buscarUsuarioPorId(id);
         return ResponseEntity.ok(user);
     }
-//    @GetMapping
-//    @Operation(summary = "Buscar Usuario por email")
-//    public List<Usuario> buscarUsuarioPorEmail(String email) {
-//        return usuarioService.buscarUsuarioPorEmail(email);
-//
-//    }
-    //Put - Atualizar Usuario
+    @Operation(summary = "Buscar Usuario por email")
+    public Optional<Usuario> buscarUsuarioPorEmail(String email) {
+        return usuarioService.buscarUsuarioPorEmail(email);
 
+    }
+    //Put - Atualizar Usuario
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualizar Usuario")
+    public ResponseEntity<?> atualizarUsuario(@RequestBody Usuario usuario, @PathVariable Integer id) {
+        Usuario user = usuarioService.atualizarUsuario(usuario, id);
+        return ResponseEntity.ok(user);
+    }
     //Delete - Deletar Usuario
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar Usuario")
+    public ResponseEntity<?> deletarUsuario(@PathVariable Integer id) {
+        Usuario user = usuarioService.deletarUsuarioPorId(id);
+        return ResponseEntity.ok(user);
+    }
 }
