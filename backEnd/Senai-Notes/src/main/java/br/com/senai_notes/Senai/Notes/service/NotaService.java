@@ -2,6 +2,7 @@ package br.com.senai_notes.Senai.Notes.service;
 
 
 import br.com.senai_notes.Senai.Notes.exception.ResourceNotFoundException;
+import br.com.senai_notes.Senai.Notes.model.Compartilhada;
 import br.com.senai_notes.Senai.Notes.model.Nota;
 import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.repository.CompartilhadaRepository;
