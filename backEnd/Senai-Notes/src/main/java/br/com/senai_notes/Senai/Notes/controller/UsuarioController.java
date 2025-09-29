@@ -27,14 +27,15 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
     //Get - Buscar Usuario
-    @GetMapping
+    @GetMapping("/{id}")
     @Operation(summary = "Buscar Usuario")
     public ResponseEntity<?> buscarUsuarioId(Integer id) {
         Usuario user = usuarioService.buscarUsuarioPorId(id);
         return ResponseEntity.ok(user);
     }
+    @GetMapping("/{email}")
     @Operation(summary = "Buscar Usuario por email")
-    public Optional<Usuario> buscarUsuarioPorEmail(String email) {
+    public Optional<Usuario> buscarUsuarioPorEmail(@PathVariable String email) {
         return usuarioService.buscarUsuarioPorEmail(email);
 
     }
