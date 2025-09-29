@@ -1,10 +1,15 @@
 package br.com.senai_notes.Senai.Notes.controller;
 
 
+import br.com.senai_notes.Senai.Notes.model.Nota;
 import br.com.senai_notes.Senai.Notes.service.NotaService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.constraints.Email;
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/notas")
