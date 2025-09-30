@@ -15,6 +15,7 @@ public class UsuarioService {
     public UsuarioService(UsuarioRepository usuarioRepository){
         this.usuarioRepository = usuarioRepository;
     }
+
     //Post
     public Usuario criarUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
