@@ -6,6 +6,7 @@ import br.com.senai_notes.Senai.Notes.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -25,7 +26,7 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    public List<Usuario> buscarUsuarioPorEmail(String email){
+    public Optional<Usuario> buscarUsuarioPorEmail(String email){
         return usuarioRepository.findByEmail(email);
     }
     //Put

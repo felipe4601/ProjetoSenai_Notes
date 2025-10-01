@@ -13,13 +13,18 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NotaService {
     private final NotaRepository notaRepository;
     private final UsuarioRepository usuarioRepository;
     private final CompartilhadaRepository compartilhadaRepository;
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 8dd3c3c5b47c0e77d5ffc682a96518a43dc95347
     public NotaService(NotaRepository notaRepository, UsuarioRepository usuarioRepository, CompartilhadaRepository compartilhadaRepository) {
         this.notaRepository = notaRepository;
         this.usuarioRepository = usuarioRepository;
@@ -28,9 +33,9 @@ public class NotaService {
     }
 
 
-    // CRUD
     // CREATE
     // Método para cadastrar nota
+    // CRUD
     public Nota cadastrarNota(Nota novaNota){
         if(novaNota.getUsuario()!=null && novaNota.getUsuario().getIdUsuario() != null){
             Integer idUsuario = novaNota.getUsuario().getIdUsuario();
@@ -43,11 +48,15 @@ public class NotaService {
 
 
     }
+
     // READ
     // Método para listar por usuário
     public List<Nota> listarPorUsuario(String email){
         return notaRepository.findByUsuarioEmail(email);
     }
+
+
+
 
     // Método para buscar nota por usuário
     public Nota buscarPorId(Integer id){
@@ -60,6 +69,7 @@ public class NotaService {
     public Nota atualizarNota(Integer id, Nota novaNota){
         Nota notaExistente = buscarPorId(id);
         // Atualizando titulo
+<<<<<<< HEAD
         notaExistente.setTitulo((novaNota.getTitulo()!=null && !novaNota.getTitulo().isBlank())
                 ? novaNota.getTitulo() : notaExistente.getTitulo());
         // Atualizando descrição
@@ -73,6 +83,21 @@ public class NotaService {
         // Atualizando estado da nota
         notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && !novaNota.getEstadoNota().isBlank())
             ? novaNota.getEstadoNota() : notaExistente.getEstadoNota());
+=======
+        notaExistente.setTitulo((novaNota.getTitulo()!=null && novaNota.getTitulo().isBlank())
+                ? notaExistente.getTitulo() : novaNota.getTitulo());
+        // Atualizando descrição
+        notaExistente.setDescricao((novaNota.getDescricao()!=null && novaNota.getDescricao().isBlank())
+                ? notaExistente.getDescricao() : novaNota.getDescricao());
+        // Atualizando imagen
+        notaExistente.setImagem((novaNota.getImagem()!=null && novaNota.getImagem().isBlank())
+                ? notaExistente.getImagem() : novaNota.getImagem());
+        // Atualizando data de edição
+        notaExistente.setDataEdicao(OffsetDateTime.now());
+        // Atualizando estado da nota
+        notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && novaNota.getEstadoNota().isBlank())
+            ? notaExistente.getEstadoNota() : novaNota.getEstadoNota());
+>>>>>>> 8dd3c3c5b47c0e77d5ffc682a96518a43dc95347
         // Atualizando ehCompartilhada
         notaExistente.setEhCompartilhada(novaNota.isEhCompartilhada());
         novaNota.setDataCriacao(notaExistente.getDataCriacao());
@@ -89,6 +114,7 @@ public class NotaService {
             Integer idCompartilhamentoAssociado = novaNota.getCompartilhada().getIdCompartilhada();
             Compartilhada compartilhamentoAssociado = compartilhadaRepository.findById(idCompartilhamentoAssociado)
                     .orElseThrow(() -> new ResourceNotFoundException("Compartilhamento"));
+<<<<<<< HEAD
             notaExistente.setCompartilhada(compartilhamentoAssociado);
         }
         else {
@@ -97,6 +123,14 @@ public class NotaService {
        return notaRepository.save(notaExistente);
     }
 
+=======
+        }
+       return notaRepository.save(novaNota);
+    }
+
+
+
+>>>>>>> 8dd3c3c5b47c0e77d5ffc682a96518a43dc95347
     // DELETE
     // Método para excluir usuário
     public Nota removerNota(Integer id){
