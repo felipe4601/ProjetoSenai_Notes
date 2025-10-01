@@ -30,4 +30,20 @@ public class TagNota {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tag")
     private Tag idTag;
+
+    public Nota getIdNota() {
+        return idNota;
+    }
+
+    public void setIdNota(Nota idNota) {
+        this.idNota = idNota;
+    }
+
+    public Tag getIdTag() {
+        return idTag;
+    }
+
+    public void setIdTag(Tag idTag) {
+        this.idTag = idTag;
+    }
 }
