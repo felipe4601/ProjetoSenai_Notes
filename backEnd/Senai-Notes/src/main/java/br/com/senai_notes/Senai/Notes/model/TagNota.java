@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Entity
 @Table(name="tag_nota", schema = "senai_notes")
 public class TagNota {
@@ -29,9 +30,4 @@ public class TagNota {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tag")
     private Tag idTag;
-
-
-
-
-
 }

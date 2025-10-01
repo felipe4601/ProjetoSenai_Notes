@@ -1,5 +1,7 @@
 package br.com.senai_notes.Senai.Notes.service;
 
+
+import br.com.senai_notes.Senai.Notes.dtos.TagAnotacoesDto;
 import br.com.senai_notes.Senai.Notes.dto.TagAnotacoesDto;
 import br.com.senai_notes.Senai.Notes.exception.ResourceNotFoundException;
 import br.com.senai_notes.Senai.Notes.model.Nota;
@@ -11,35 +13,42 @@ import br.com.senai_notes.Senai.Notes.repository.TagNotaRepository;
 import br.com.senai_notes.Senai.Notes.repository.TagRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TagNotaService {
     private final TagNotaRepository tagNotaRepository;
     private final TagRepository tagRepository;
     private final NotaRepository notaRepository;
+    private final TagRepository tagRepository;
+    private final TagNotaRepository tagNotaRepository;
 
-    public TagNotaService(TagNotaRepository tagNotaRepository, TagRepository tagRepository, NotaRepository notaRepository) {
-        this.tagNotaRepository = tagNotaRepository;
-        this.tagRepository = tagRepository;
+    public TagNotaService(NotaRepository notaRepository, TagRepository tagRepository, TagNotaRepository tagNotaRepository){
         this.notaRepository = notaRepository;
+        this.tagRepository = tagRepository;
+        this.tagNotaRepository = tagNotaRepository;
     }
+    // CREATE
+    // Método para associar tag com nota
+    public List<TagNota> associarTagENota(TagAnotacoesDto dto){
+        List<TagNota> novasAssociacoes = new ArrayList<>();
+        List<Tag> tagsAssociadas = tagRepository.findAllById(dto.getIdTag());
+        Nota notasAssociada = notaRepository.findById(dto.getIdNota())
+                .orElseThrow(() -> new ResourceNotFoundException("Nota não encontrada"));
 
-    //Creat
-    public TagNota criarTagNota(TagNota tagNota){
-       return tagNotaRepository.save(tagNota);
-    }
-    // TagAnotações Dto
-    public TagNota associarTagENota(TagAnotacoesDto dto){
-        Tag tagAssociada = tagRepository.findById(dto.getIdTag())
-                .orElseThrow(() -> new ResourceNotFoundException("Tag"));
-        Nota notaAssociada = notaRepository.findById(dto.getIdNota())
-                .orElseThrow(() -> new ResourceNotFoundException("Nota"));
-        TagNota tagAnotacoes = new  TagNota();
-        tagAnotacoes.setIdTag(tagAssociada.getIdTag());
-        tagAnotacoes.setIdNota(notaAssociada.getIdNota());
+        if(tagsAssociadas.size() != dto.getIdTag().size()){
+            throw new ResourceNotFoundException("Pelo menos uma tag não foi encontrada");
+        }
 
-        return tagNotaRepository.save(tagAnotacoes);
+        for(Tag tag : tagsAssociadas){
+                TagNota tagAnotacoes = new TagNota();
+                tagAnotacoes.setNota(notasAssociada);
+                tagAnotacoes.setTag(tag);
+                novasAssociacoes.add(tagAnotacoes);
+
+        }
+        return tagNotaRepository.saveAll(novasAssociacoes);
     }
     //Read
 
