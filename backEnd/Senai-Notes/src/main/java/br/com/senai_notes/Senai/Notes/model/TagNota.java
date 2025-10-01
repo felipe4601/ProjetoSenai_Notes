@@ -23,10 +23,10 @@ public class TagNota {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_nota")
-    private Nota idNota;
+    private Nota nota;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tag")
-    private Tag idTag;
+    private Tag tag;
 }
