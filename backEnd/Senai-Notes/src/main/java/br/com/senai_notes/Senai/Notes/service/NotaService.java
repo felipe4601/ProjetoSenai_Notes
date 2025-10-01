@@ -74,8 +74,8 @@ public class NotaService {
         notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && !novaNota.getEstadoNota().isBlank())
             ? novaNota.getEstadoNota() : notaExistente.getEstadoNota());
         // Atualizando ehCompartilhada
-
         notaExistente.setEhCompartilhada(novaNota.isEhCompartilhada());
+        novaNota.setDataCriacao(notaExistente.getDataCriacao());
         // Atualizando usuario
         if(novaNota.getUsuario()!=null && novaNota.getUsuario().getIdUsuario()!=null){
             Integer idUsuarioAssociado = novaNota.getUsuario().getIdUsuario();

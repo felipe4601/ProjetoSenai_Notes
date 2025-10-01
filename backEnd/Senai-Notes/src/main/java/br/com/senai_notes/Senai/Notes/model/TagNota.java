@@ -14,7 +14,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @AllArgsConstructor
 
 @Entity
-@Table(name="tag_nota", schema = "senai_notes")
 public class TagNota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,26 +23,10 @@ public class TagNota {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_nota")
-    private Nota idNota;
+    private Nota nota;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tag")
-    private Tag idTag;
-
-    public Nota getIdNota() {
-        return idNota;
-    }
-
-    public void setIdNota(Nota idNota) {
-        this.idNota = idNota;
-    }
-
-    public Tag getIdTag() {
-        return idTag;
-    }
-
-    public void setIdTag(Tag idTag) {
-        this.idTag = idTag;
-    }
+    private Tag tag;
 }
