@@ -29,6 +29,7 @@ public class TagNotaService {
     // CREATE
     // Método para associar tag com nota
     public List<TagNota> associarTagENota(TagAnotacoesDto dto) {
+
         List<TagNota> novasAssociacoes = new ArrayList<>();
         List<Tag> tagsAssociadas = tagRepository.findAllById(dto.getIdTag());
         Nota notasAssociada = notaRepository.findById(dto.getIdNota())
