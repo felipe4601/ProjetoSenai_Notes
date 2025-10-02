@@ -1,4 +1,4 @@
-package br.com.senai_notes.Senai.Notes.dtos;
+package br.com.senai_notes.Senai.Notes.anotacao;
 
 import lombok.Data;
 
