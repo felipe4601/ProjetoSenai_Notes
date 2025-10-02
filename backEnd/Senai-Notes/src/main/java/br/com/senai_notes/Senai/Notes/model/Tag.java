@@ -30,11 +30,5 @@ public class Tag {
 
     private Usuario  usuario;
 
-    public Integer getIdTag() {
-        return idTag;
-    }
 
-    public void setIdTag(Integer idTag) {
-        this.idTag = idTag;
-    }
 }
