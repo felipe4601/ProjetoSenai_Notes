@@ -65,7 +65,7 @@ public class NotaController {
     // DELETE
     // Método para deletar nota
     @DeleteMapping("/{id}")
-
+    // Deletar
     @Operation(summary = "Deletar Nota por id")
 
     public ResponseEntity<?> removerNota(@PathVariable Integer id){
