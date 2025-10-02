@@ -1,8 +1,12 @@
 package br.com.senai_notes.Senai.Notes.controller;
 
 
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
+import br.com.senai_notes.Senai.Notes.dtos.tag.CadastrarEditarTagDto;
 import br.com.senai_notes.Senai.Notes.model.Nota;
 import br.com.senai_notes.Senai.Notes.service.NotaService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -35,9 +39,13 @@ public class NotaController {
     @PostMapping
 
     @Operation(summary = "Cadastrar anotação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Anotação cadastrada"),
+            @ApiResponse(responseCode = "201", description = "Dados invalídos")
 
-    public ResponseEntity<?> cadastrarNota(@RequestBody Nota novaNota){
-        notaService.cadastrarNota(novaNota);
+    })
+    public ResponseEntity<Nota> cadastrarNota(@RequestBody CadastrarEditarAnotacaoDto dto){
+        Nota novaNota = notaService.cadastrarTagAnotacaoDto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaNota);
     }
     // READ
@@ -72,5 +80,9 @@ public class NotaController {
         notaService.removerNota(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    // DTO
+
 
 }
