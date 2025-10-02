@@ -4,6 +4,7 @@ package br.com.senai_notes.Senai.Notes.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,12 +25,14 @@ public class Usuario {
     @Column(name = "id_usuario")
     private Integer idUsuario;
 
-    @Email
-    @NotBlank
-
-    @Column(name = "email", nullable = false, columnDefinition = "TEXT")
+    @Email(message="Email inválido")
+    @NotNull(message = "O campo não pode ser nulo")
+    @NotBlank(message="O campo não pode estar em branco")
+    @Column(name = "email", nullable = false, columnDefinition = "TEXT", unique = true)
     private String email;
 
+    @NotNull(message = "O campo não pode ser nulo")
+    @NotBlank(message="O campo não pode estar em branco")
     @Column(name = "senha", nullable = false, columnDefinition = "TEXT")
     private String senha;
 

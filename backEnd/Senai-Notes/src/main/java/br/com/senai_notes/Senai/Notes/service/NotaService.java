@@ -1,17 +1,16 @@
 package br.com.senai_notes.Senai.Notes.service;
 
 
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacoesDto;
+import br.com.senai_notes.Senai.Notes.dtos.tag.ListarTagDto;
 import br.com.senai_notes.Senai.Notes.exception.ResourceNotFoundException;
-import br.com.senai_notes.Senai.Notes.model.Compartilhada;
-import br.com.senai_notes.Senai.Notes.model.Nota;
-import br.com.senai_notes.Senai.Notes.model.Usuario;
-import br.com.senai_notes.Senai.Notes.repository.CompartilhadaRepository;
-import br.com.senai_notes.Senai.Notes.repository.NotaRepository;
-import br.com.senai_notes.Senai.Notes.repository.UsuarioRepository;
-import org.hibernate.usertype.BaseUserTypeSupport;
+import br.com.senai_notes.Senai.Notes.model.*;
+import br.com.senai_notes.Senai.Notes.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,16 +18,18 @@ public class NotaService {
     private final NotaRepository notaRepository;
     private final UsuarioRepository usuarioRepository;
     private final CompartilhadaRepository compartilhadaRepository;
+   private final TagRepository tagRepository;
+   private final TagNotaRepository tagNotaRepository;
 
 
-
-
-
-    public NotaService(NotaRepository notaRepository, UsuarioRepository usuarioRepository, CompartilhadaRepository compartilhadaRepository) {
+    public NotaService(NotaRepository notaRepository, UsuarioRepository usuarioRepository,
+                       CompartilhadaRepository compartilhadaRepository,
+                       TagRepository tagRepository, TagNotaRepository tagNotaRepository) {
         this.notaRepository = notaRepository;
         this.usuarioRepository = usuarioRepository;
         this.compartilhadaRepository = compartilhadaRepository;
-
+        this.tagRepository = tagRepository;
+        this.tagNotaRepository = tagNotaRepository;
     }
 
 
@@ -83,23 +84,8 @@ public class NotaService {
         notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && !novaNota.getEstadoNota().isBlank())
             ? novaNota.getEstadoNota() : notaExistente.getEstadoNota());
 
-        notaExistente.setTitulo((novaNota.getTitulo()!=null && novaNota.getTitulo().isBlank())
-                ? notaExistente.getTitulo() : novaNota.getTitulo());
-        // Atualizando descrição
-        notaExistente.setDescricao((novaNota.getDescricao()!=null && novaNota.getDescricao().isBlank())
-                ? notaExistente.getDescricao() : novaNota.getDescricao());
-        // Atualizando imagen
-        notaExistente.setImagem((novaNota.getImagem()!=null && novaNota.getImagem().isBlank())
-                ? notaExistente.getImagem() : novaNota.getImagem());
-        // Atualizando data de edição
-        notaExistente.setDataEdicao(OffsetDateTime.now());
-        // Atualizando estado da nota
-        notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && novaNota.getEstadoNota().isBlank())
-            ? notaExistente.getEstadoNota() : novaNota.getEstadoNota());
-
         // Atualizando ehCompartilhada
         notaExistente.setEhCompartilhada(novaNota.isEhCompartilhada());
-        novaNota.setDataCriacao(notaExistente.getDataCriacao());
         // Atualizando usuario
         if(novaNota.getUsuario()!=null && novaNota.getUsuario().getIdUsuario()!=null){
             Integer idUsuarioAssociado = novaNota.getUsuario().getIdUsuario();
@@ -131,5 +117,64 @@ public class NotaService {
         notaRepository.delete(notaAssociada);
         return notaAssociada;
     }
+
+    // DTOS
+    // CREATE
+    // Método para cadastrar anotação com associação de tag e usuário
+    public Nota cadastrarTagAnotacaoDto(CadastrarEditarAnotacaoDto dto){
+        Nota novaNota = new Nota();
+        // Mapeando dados para a anotação
+        novaNota.setTitulo(dto.getTitulo());
+        novaNota.setDescricao(dto.getDescricao());
+        novaNota.setImagem(dto.getImagem());
+        novaNota.setDataEdicao(OffsetDateTime.now());
+        novaNota.setEstadoNota(dto.getEstadoNota());
+        novaNota.setDataCriacao(OffsetDateTime.now());
+        Usuario usuarioAssociado = usuarioRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário"));
+        novaNota.setUsuario(usuarioAssociado);
+        notaRepository.save(novaNota);
+        List<TagNota> associacoes = new ArrayList<>();
+        List<Tag> tagsAssociadas = tagRepository.findAllById(dto.getIdTag());
+        if(dto.getIdTag().size() != tagsAssociadas.size()){
+            throw new ResourceNotFoundException("Tag");
+        }
+        for(Tag tags: tagsAssociadas){
+            TagNota associacao = new TagNota();
+            associacao.setTag(tags);
+            associacao.setNota(novaNota);
+            associacoes.add(associacao);
+        }
+        tagNotaRepository.saveAll(associacoes);
+        return novaNota;
+    }
+
+    // READ
+    // Método para listar anotarções
+    public List<ListarAnotacoesDto> listarAnotacoesPorUsuario(String email, ListarAnotacoesDto dto){
+        List<Nota> notas = notaRepository.findByUsuarioEmail(email);
+        List<ListarAnotacoesDto> anotacoes = new ArrayList<>();
+        List<TagNota> associacoes = new ArrayList<>();
+        for(Nota nota : notas ){
+            ListarAnotacoesDto anotacao = new ListarAnotacoesDto();
+            anotacao.setId(nota.getIdNota());
+            anotacao.setTitulo(nota.getTitulo());
+            anotacao.setDescricao(nota.getDescricao());
+            anotacao.setImagem(nota.getImagem());
+            anotacao.setEstadoNota(nota.getEstadoNota());
+            List<TagNota> tagsAssociadas = tagNotaRepository.findAllByNotaId(anotacao.getId());
+            for(TagNota associacaoNota : tagsAssociadas){
+                ListarTagDto associacaoTagAnotacao = new ListarTagDto();
+                associacaoTagAnotacao.setId(associacaoNota.getTag().getIdTag());
+                associacaoTagAnotacao.setNome()
+                anotacoes.add()
+            }
+            anotacao.setTag(tagsAssociadas);
+            anotacoes.add(anotacao);
+        }
+    }
+
+
+
 
 }

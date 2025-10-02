@@ -2,7 +2,7 @@ package br.com.senai_notes.Senai.Notes.service;
 
 
 
-import br.com.senai_notes.Senai.Notes.anotacao.CadastrarAnotacaoDto;
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
 import br.com.senai_notes.Senai.Notes.exception.ResourceNotFoundException;
 import br.com.senai_notes.Senai.Notes.model.Nota;
 import br.com.senai_notes.Senai.Notes.model.Tag;
@@ -28,7 +28,7 @@ public class TagNotaService {
     }
     // CREATE
     // Método para associar tag com nota
-    public List<TagNota> associarTagENota(CadastrarAnotacaoDto dto) {
+    public List<TagNota> associarTagENota(CadastrarEditarAnotacaoDto dto) {
 
         List<TagNota> novasAssociacoes = new ArrayList<>();
         List<Tag> tagsAssociadas = tagRepository.findAllById(dto.getIdTag());
