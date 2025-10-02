@@ -12,10 +12,7 @@ import br.com.senai_notes.Senai.Notes.repository.TagNotaRepository;
 import br.com.senai_notes.Senai.Notes.repository.TagRepository;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
->>>>>>> f415e0ff5d851d7c6586f81ec40a2e8c6e416fdb
 import java.util.List;
 
 @Service

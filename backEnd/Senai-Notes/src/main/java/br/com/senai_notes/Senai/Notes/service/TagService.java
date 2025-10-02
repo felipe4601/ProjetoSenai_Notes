@@ -13,7 +13,6 @@ public class TagService {
         this.tagRepository = tagRepository;
     }
 
-<<<<<<< HEAD
     //Create
     public Tag criarTag(Tag tag){
         return tagRepository.save(tag);
@@ -25,12 +24,10 @@ public class TagService {
     //Update
 
     //Delete
-=======
     // CRUD
     // CREATE
     // Método para cadastrar tag
 //    public Tag cadastrarTag(Tag novaTag){
 //        if(novaTag.getUsuario()!=null && novaTag.getUsuario().getIdUsuario()!=null)
 //    }
->>>>>>> f415e0ff5d851d7c6586f81ec40a2e8c6e416fdb
 }
