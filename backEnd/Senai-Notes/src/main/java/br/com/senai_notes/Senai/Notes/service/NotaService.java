@@ -8,6 +8,7 @@ import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.repository.CompartilhadaRepository;
 import br.com.senai_notes.Senai.Notes.repository.NotaRepository;
 import br.com.senai_notes.Senai.Notes.repository.UsuarioRepository;
+import org.hibernate.usertype.BaseUserTypeSupport;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -18,6 +19,8 @@ public class NotaService {
     private final NotaRepository notaRepository;
     private final UsuarioRepository usuarioRepository;
     private final CompartilhadaRepository compartilhadaRepository;
+
+
 
 
 
@@ -65,6 +68,21 @@ public class NotaService {
     public Nota atualizarNota(Integer id, Nota novaNota){
         Nota notaExistente = buscarPorId(id);
         // Atualizando titulo
+
+        notaExistente.setTitulo((novaNota.getTitulo()!=null && !novaNota.getTitulo().isBlank())
+                ? novaNota.getTitulo() : notaExistente.getTitulo());
+        // Atualizando descrição
+        notaExistente.setDescricao((novaNota.getDescricao()!=null && !novaNota.getDescricao().isBlank())
+                ? novaNota.getDescricao() : notaExistente.getDescricao());
+        // Atualizando imagen
+        notaExistente.setImagem((novaNota.getImagem()!=null && !novaNota.getImagem().isBlank())
+                ? novaNota.getImagem() : notaExistente.getImagem());
+        // Atualizando data de edição
+        notaExistente.setDataEdicao(OffsetDateTime.now());
+        // Atualizando estado da nota
+        notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && !novaNota.getEstadoNota().isBlank())
+            ? novaNota.getEstadoNota() : notaExistente.getEstadoNota());
+
         notaExistente.setTitulo((novaNota.getTitulo()!=null && novaNota.getTitulo().isBlank())
                 ? notaExistente.getTitulo() : novaNota.getTitulo());
         // Atualizando descrição
@@ -78,6 +96,7 @@ public class NotaService {
         // Atualizando estado da nota
         notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && novaNota.getEstadoNota().isBlank())
             ? notaExistente.getEstadoNota() : novaNota.getEstadoNota());
+
         // Atualizando ehCompartilhada
         notaExistente.setEhCompartilhada(novaNota.isEhCompartilhada());
         novaNota.setDataCriacao(notaExistente.getDataCriacao());
@@ -94,8 +113,13 @@ public class NotaService {
             Integer idCompartilhamentoAssociado = novaNota.getCompartilhada().getIdCompartilhada();
             Compartilhada compartilhamentoAssociado = compartilhadaRepository.findById(idCompartilhamentoAssociado)
                     .orElseThrow(() -> new ResourceNotFoundException("Compartilhamento"));
+
+            notaExistente.setCompartilhada(compartilhamentoAssociado);
         }
-       return notaRepository.save(novaNota);
+        else {
+            notaExistente.setCompartilhada(null);
+        }
+       return notaRepository.save(notaExistente);
     }
 
 
