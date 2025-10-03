@@ -3,7 +3,6 @@ package br.com.senai_notes.Senai.Notes.service;
 
 import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
 import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacoesDto;
-import br.com.senai_notes.Senai.Notes.dtos.tag.ListarTagDto;
 import br.com.senai_notes.Senai.Notes.exception.ResourceNotFoundException;
 import br.com.senai_notes.Senai.Notes.model.*;
 import br.com.senai_notes.Senai.Notes.repository.*;
@@ -135,8 +134,9 @@ public class NotaService {
         novaNota.setUsuario(usuarioAssociado);
         notaRepository.save(novaNota);
         List<TagNota> associacoes = new ArrayList<>();
-        List<Tag> tagsAssociadas = tagRepository.findAllById(dto.getIdTag());
-        if(dto.getIdTag().size() != tagsAssociadas.size()){
+        List<Tag> tagsAssociadas = tagRepository.findAllByNomeAndUsuarioEmail(dto.getTitulo(), dto.getEmail());
+
+        if(dto.getTags().size() != tagsAssociadas.size()){
             throw new ResourceNotFoundException("Tag");
         }
         for(Tag tags: tagsAssociadas){
@@ -150,31 +150,35 @@ public class NotaService {
     }
 
     // READ
-    // Método para listar anotarções
-    public List<ListarAnotacoesDto> listarAnotacoesPorUsuario(String email, ListarAnotacoesDto dto){
+     //Método para listar anotarções
+    public List<ListarAnotacoesDto> listarAnotacoesPorUsuario(String email) {
         List<Nota> notas = notaRepository.findByUsuarioEmail(email);
         List<ListarAnotacoesDto> anotacoes = new ArrayList<>();
-        List<TagNota> associacoes = new ArrayList<>();
-        for(Nota nota : notas ){
+        for (Nota nota : notas) {
             ListarAnotacoesDto anotacao = new ListarAnotacoesDto();
             anotacao.setId(nota.getIdNota());
             anotacao.setTitulo(nota.getTitulo());
             anotacao.setDescricao(nota.getDescricao());
             anotacao.setImagem(nota.getImagem());
             anotacao.setEstadoNota(nota.getEstadoNota());
-            List<TagNota> tagsAssociadas = tagNotaRepository.findAllByNotaId(anotacao.getId());
-            for(TagNota associacaoNota : tagsAssociadas){
-                ListarTagDto associacaoTagAnotacao = new ListarTagDto();
-                associacaoTagAnotacao.setId(associacaoNota.getTag().getIdTag());
-                associacaoTagAnotacao.setNome()
-                anotacoes.add()
+            List<TagNota> associacoes = tagNotaRepository.findAllByNotaId(nota.getIdNota());
+
+            List<String> tagsAssociadas = new ArrayList<>();
+            for (TagNota associacaoNota : associacoes) {
+                Tag tagAssociada = tagRepository.findById(associacaoNota.getTag().getIdTag())
+                        .orElseThrow(() -> new ResourceNotFoundException("Tag"));
+                tagsAssociadas.add(tagAssociada.getNome());
             }
+
             anotacao.setTag(tagsAssociadas);
-            anotacoes.add(anotacao);
         }
+        return anotacoes;
+    }
+
+
     }
 
 
 
 
-}
+

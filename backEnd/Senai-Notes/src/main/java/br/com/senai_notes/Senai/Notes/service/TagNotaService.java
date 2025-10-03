@@ -26,38 +26,5 @@ public class TagNotaService {
         this.tagRepository = tagRepository;
         this.tagNotaRepository = tagNotaRepository;
     }
-    // CREATE
-    // Método para associar tag com nota
-    public List<TagNota> associarTagENota(CadastrarEditarAnotacaoDto dto) {
 
-        List<TagNota> novasAssociacoes = new ArrayList<>();
-        List<Tag> tagsAssociadas = tagRepository.findAllById(dto.getIdTag());
-        Nota notasAssociada = notaRepository.findById(dto.getIdNota())
-                .orElseThrow(() -> new ResourceNotFoundException("Nota"));
-
-        if (tagsAssociadas.size() != dto.getIdTag().size()) {
-            throw new ResourceNotFoundException("Pelo menos uma tag não foi encontrada");
-        }
-
-        for (Tag tag : tagsAssociadas) {
-            TagNota tagAnotacoes = new TagNota();
-            tagAnotacoes.setNota(notasAssociada);
-            tagAnotacoes.setTag(tag);
-            novasAssociacoes.add(tagAnotacoes);
-
-        }
-        return tagNotaRepository.saveAll(novasAssociacoes);
-    }
-
-
-    //Creat
-    public TagNota criarTagNota(TagNota tagNota){
-       return tagNotaRepository.save(tagNota);
-
-    }
-    //Read
-
-    //Update
-
-    //Delete
 }

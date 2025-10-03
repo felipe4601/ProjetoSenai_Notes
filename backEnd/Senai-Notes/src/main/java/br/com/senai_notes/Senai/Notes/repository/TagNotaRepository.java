@@ -14,6 +14,7 @@ import java.util.List;
 
 public interface TagNotaRepository  extends JpaRepository <TagNota, Integer> {
       List<TagNota> findAllByNotaId(Integer id);
+      List<TagNota> findAllByNotaIdAndTagId(Integer notaId, List<Integer> tags);
       }
 
 

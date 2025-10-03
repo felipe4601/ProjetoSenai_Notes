@@ -11,5 +11,5 @@ public class CadastrarEditarAnotacaoDto {
     private String imagem;
     private String estadoNota;
     private String email;
-    private List<Integer> idTag;
+    private List<String> tags;
 }
