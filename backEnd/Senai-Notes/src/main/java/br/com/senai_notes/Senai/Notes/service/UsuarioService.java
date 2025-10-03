@@ -29,7 +29,7 @@ public class UsuarioService {
         usuarioCriado.setEmail(usuario.getEmail());
         usuarioCriado.setSenha(usuario.getSenha());
         usuarioCriado.setNome(usuario.getNome());
-
+        usuarioRepository.save(usuarioCriado);
         return usuarioCriado;
     }
     //Get
