@@ -7,4 +7,5 @@ import lombok.Data;
 public class CadastrarEditarUsuarioDto {
     private String email;
     private String senha;
+    private String nome;
 }
