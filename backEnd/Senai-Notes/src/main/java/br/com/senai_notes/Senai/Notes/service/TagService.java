@@ -10,6 +10,7 @@ import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.repository.TagRepository;
 import br.com.senai_notes.Senai.Notes.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,17 @@ public class TagService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    //Create
+    public Tag criarTag(Tag tag){
+        return tagRepository.save(tag);
+    }
+    //Read
+    public List<Tag> buscarTagNota(){
+        return tagRepository.findAll();
+    }
+    //Update
+
+    //Delete
     // CRUD
     // CREATE
     // Método para cadastrar tag
