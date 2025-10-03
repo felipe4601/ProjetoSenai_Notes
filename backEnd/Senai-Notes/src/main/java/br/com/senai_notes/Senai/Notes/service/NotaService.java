@@ -165,9 +165,9 @@ public class NotaService {
             List<TagNota> tagsAssociadas = tagNotaRepository.findAllByNotaId(anotacao.getId());
             for(TagNota associacaoNota : tagsAssociadas){
                 ListarTagDto associacaoTagAnotacao = new ListarTagDto();
-                associacaoTagAnotacao.setId(associacaoNota.getTag().getIdTag());
-                associacaoTagAnotacao.setNome()
-                anotacoes.add()
+                Tag tagAssociada = tagRepository.findById(associacaoNota.getTag().getIdTag())
+                                .orElseThrow(() -> new ResourceNotFoundException("Tag nãp encontrada"));
+                anotacoes.add(tagAssociada.getNome())
             }
             anotacao.setTag(tagsAssociadas);
             anotacoes.add(anotacao);
