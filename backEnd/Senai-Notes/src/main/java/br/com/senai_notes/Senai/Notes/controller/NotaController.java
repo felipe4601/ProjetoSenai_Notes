@@ -2,6 +2,7 @@ package br.com.senai_notes.Senai.Notes.controller;
 
 
 import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacoesDto;
 import br.com.senai_notes.Senai.Notes.dtos.tag.CadastrarEditarTagDto;
 import br.com.senai_notes.Senai.Notes.model.Nota;
 import br.com.senai_notes.Senai.Notes.service.NotaService;
@@ -55,7 +56,7 @@ public class NotaController {
     @Operation(summary = "Listar anotações por usuário")
 
     public  ResponseEntity<?> listarNotasUsuario(@PathVariable String email){
-        List<Nota> notas = notaService.listarPorUsuario(email);
+        List<ListarAnotacoesDto> notas = notaService.listarAnotacoesPorUsuario(email);
         return ResponseEntity.ok(notas);
     }
 

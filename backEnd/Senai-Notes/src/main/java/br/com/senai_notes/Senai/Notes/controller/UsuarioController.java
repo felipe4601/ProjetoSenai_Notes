@@ -1,6 +1,8 @@
 package br.com.senai_notes.Senai.Notes.controller;
 
 
+import br.com.senai_notes.Senai.Notes.dtos.usuario.CadastrarEditarUsuarioDto;
+import br.com.senai_notes.Senai.Notes.dtos.usuario.ListarUsuarioDto;
 import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +24,7 @@ public class UsuarioController {
     //Post - Criar Usuario
     @PostMapping
     @Operation(summary = "Criar Usuario")
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> criarUsuario(@RequestBody CadastrarEditarUsuarioDto usuario) {
         Usuario user = usuarioService.criarUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
@@ -35,15 +37,17 @@ public class UsuarioController {
     }
     @GetMapping("/{email}")
     @Operation(summary = "Buscar Usuario por email")
-    public Optional<Usuario> buscarUsuarioPorEmail(@PathVariable String email) {
-        return usuarioService.buscarUsuarioPorEmail(email);
+    public ResponseEntity<?> buscarUsuarioPorEmail(@PathVariable String email) {
+        ListarUsuarioDto usuarioBuscado = usuarioService.buscarUsuarioPorEmail(email);
+
+        return ResponseEntity.ok(usuarioBuscado);
 
     }
     //Put - Atualizar Usuario
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar Usuario")
-    public ResponseEntity<?> atualizarUsuario(@RequestBody Usuario usuario, @PathVariable Integer id) {
-        Usuario user = usuarioService.atualizarUsuario(usuario, id);
+    public ResponseEntity<?> atualizarUsuario(@RequestBody CadastrarEditarUsuarioDto usuario, @PathVariable Integer id) {
+        CadastrarEditarUsuarioDto user = usuarioService.atualizarUsuario(usuario, id);
         return ResponseEntity.ok(user);
     }
     //Delete - Deletar Usuario

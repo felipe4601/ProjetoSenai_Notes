@@ -134,7 +134,7 @@ public class NotaService {
         novaNota.setUsuario(usuarioAssociado);
         notaRepository.save(novaNota);
         List<TagNota> associacoes = new ArrayList<>();
-        List<Tag> tagsAssociadas = tagRepository.findAllByNomeAndUsuarioEmail(dto.getTitulo(), dto.getEmail());
+        List<Tag> tagsAssociadas = tagRepository.findAllByNomeInAndUsuarioEmail(dto.getTags(), dto.getEmail());
 
         if(dto.getTags().size() != tagsAssociadas.size()){
             throw new ResourceNotFoundException("Tag");
@@ -161,7 +161,7 @@ public class NotaService {
             anotacao.setDescricao(nota.getDescricao());
             anotacao.setImagem(nota.getImagem());
             anotacao.setEstadoNota(nota.getEstadoNota());
-            List<TagNota> associacoes = tagNotaRepository.findAllByNotaId(nota.getIdNota());
+            List<TagNota> associacoes = tagNotaRepository.findAllByNota(nota);
 
             List<String> tagsAssociadas = new ArrayList<>();
             for (TagNota associacaoNota : associacoes) {
@@ -171,6 +171,7 @@ public class NotaService {
             }
 
             anotacao.setTag(tagsAssociadas);
+            anotacoes.add(anotacao);
         }
         return anotacoes;
     }
