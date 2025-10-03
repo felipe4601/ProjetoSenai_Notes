@@ -56,7 +56,7 @@ public class UsuarioService {
 
         return usuario;
     }
-    //Delete
+    //Delete.
     public Usuario deletarUsuarioPorId(Integer id){
         Usuario user = buscarUsuarioPorId(id);
         if (user == null){
