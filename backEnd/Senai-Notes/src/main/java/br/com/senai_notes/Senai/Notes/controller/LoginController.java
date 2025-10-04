@@ -2,6 +2,7 @@ package br.com.senai_notes.Senai.Notes.controller;
 
 import br.com.senai_notes.Senai.Notes.dtos.login.LoginRequest;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,7 @@ import java.time.Instant;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name ="Login", description = "Tela de login")
 public class LoginController {
     private final AuthenticationManager authenticationManager;
     private final JwtEncoder jwtEncoder;
