@@ -6,29 +6,29 @@ import br.com.senai_notes.Senai.Notes.dtos.usuario.ListarUsuarioDto;
 import br.com.senai_notes.Senai.Notes.exception.ResourceNotFoundException;
 import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.repository.UsuarioRepository;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository){
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder){
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //Post
     public Usuario criarUsuario(CadastrarEditarUsuarioDto usuario){
         Usuario usuarioCriado = new Usuario();
 
+        String senha = passwordEncoder.encode(usuario.getSenha());
+
         usuarioCriado.setEmail(usuario.getEmail());
-        usuarioCriado.setSenha(usuario.getSenha());
+        usuarioCriado.setSenha(senha);
         usuarioCriado.setNome(usuario.getNome());
+
         usuarioRepository.save(usuarioCriado);
         return usuarioCriado;
     }
@@ -48,8 +48,8 @@ public class UsuarioService {
        Usuario usuarioAntigo = buscarUsuarioPorId(id);
 
         usuarioAntigo.setEmail(usuario.getEmail());
-        // String senha  = encoder.encode(usuario.getSenha());
-        usuarioAntigo.setSenha(usuario.getSenha());
+        String senha  = passwordEncoder.encode(usuario.getSenha());
+        usuarioAntigo.setSenha(senha);
        usuarioAntigo.setNome(usuario.getNome());
 
         usuarioRepository.save(usuarioAntigo);
@@ -65,7 +65,7 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
         return user;
     }
-
+    //converter
     private ListarUsuarioDto converterParaListagemDto(Usuario usuario) {
         ListarUsuarioDto dto = new ListarUsuarioDto();
 
