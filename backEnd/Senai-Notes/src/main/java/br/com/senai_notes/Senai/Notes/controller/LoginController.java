@@ -1,6 +1,7 @@
 package br.com.senai_notes.Senai.Notes.controller;
 
 import br.com.senai_notes.Senai.Notes.dtos.login.LoginRequest;
+import br.com.senai_notes.Senai.Notes.dtos.login.LoginResponseDto;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +56,6 @@ public class LoginController {
 
         String token = this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 }
