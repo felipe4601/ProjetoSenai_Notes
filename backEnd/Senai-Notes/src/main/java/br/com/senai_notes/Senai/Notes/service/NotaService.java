@@ -65,45 +65,43 @@ public class NotaService {
 
     // UPDATE
     // Método para atualizar cadastro
-    public Nota atualizarNota(Integer id, Nota novaNota){
+    public Nota atualizarNota(Integer id, CadastrarEditarAnotacaoDto dto){
         Nota notaExistente = buscarPorId(id);
         // Atualizando titulo
-
-        notaExistente.setTitulo((novaNota.getTitulo()!=null && !novaNota.getTitulo().isBlank())
-                ? novaNota.getTitulo() : notaExistente.getTitulo());
+        notaExistente.setTitulo((dto.getTitulo()!=null && !dto.getTitulo().isBlank())
+                ? dto.getTitulo() : notaExistente.getTitulo());
         // Atualizando descrição
-        notaExistente.setDescricao((novaNota.getDescricao()!=null && !novaNota.getDescricao().isBlank())
-                ? novaNota.getDescricao() : notaExistente.getDescricao());
+        notaExistente.setDescricao((dto.getDescricao()!=null && !dto.getDescricao().isBlank())
+                ? dto.getDescricao() : notaExistente.getDescricao());
         // Atualizando imagen
-        notaExistente.setImagem((novaNota.getImagem()!=null && !novaNota.getImagem().isBlank())
-                ? novaNota.getImagem() : notaExistente.getImagem());
+        notaExistente.setImagem((dto.getImagem()!=null && !dto.getImagem().isBlank())
+                ? dto.getImagem() : notaExistente.getImagem());
         // Atualizando data de edição
         notaExistente.setDataEdicao(OffsetDateTime.now());
         // Atualizando estado da nota
-        notaExistente.setEstadoNota((novaNota.getEstadoNota()!=null && !novaNota.getEstadoNota().isBlank())
-            ? novaNota.getEstadoNota() : notaExistente.getEstadoNota());
+        notaExistente.setEstadoNota((dto.getEstadoNota()!=null && !dto.getEstadoNota().isBlank())
+            ? dto.getEstadoNota() : notaExistente.getEstadoNota());
 
-        // Atualizando ehCompartilhada
-        notaExistente.setEhCompartilhada(novaNota.isEhCompartilhada());
+
         // Atualizando usuario
-        if(novaNota.getUsuario()!=null && novaNota.getUsuario().getIdUsuario()!=null){
-            Integer idUsuarioAssociado = novaNota.getUsuario().getIdUsuario();
-            Usuario usuarioAssociado = usuarioRepository.findById(idUsuarioAssociado)
+        if(dto.getEmail()!=null && !dto.getEmail().isBlank()){
+            Usuario usuarioAssociado = usuarioRepository.findByEmail(dto.getEmail())
                     .orElseThrow(() -> new ResourceNotFoundException("Usuário"));
             notaExistente.setUsuario(usuarioAssociado);
 
         }
-        // Atualizando compartilhamento
-        if(novaNota.getCompartilhada()!=null && novaNota.getCompartilhada().getIdCompartilhada()!=null){
-            Integer idCompartilhamentoAssociado = novaNota.getCompartilhada().getIdCompartilhada();
-            Compartilhada compartilhamentoAssociado = compartilhadaRepository.findById(idCompartilhamentoAssociado)
-                    .orElseThrow(() -> new ResourceNotFoundException("Compartilhamento"));
+//        // Atualizando compartilhamento
+//        if(dto.getCompartilhada()!=null && novaNota.getCompartilhada().getIdCompartilhada()!=null){
+//            Integer idCompartilhamentoAssociado = novaNota.getCompartilhada().getIdCompartilhada();
+//            Compartilhada compartilhamentoAssociado = compartilhadaRepository.findById(idCompartilhamentoAssociado)
+//                    .orElseThrow(() -> new ResourceNotFoundException("Compartilhamento"));
+//
+//            notaExistente.setCompartilhada(compartilhamentoAssociado);
+//        }
+//        else {
+//            notaExistente.setCompartilhada(null);
+//        }
 
-            notaExistente.setCompartilhada(compartilhamentoAssociado);
-        }
-        else {
-            notaExistente.setCompartilhada(null);
-        }
        return notaRepository.save(notaExistente);
     }
 
@@ -175,6 +173,7 @@ public class NotaService {
         }
         return anotacoes;
     }
+
 
 
     }

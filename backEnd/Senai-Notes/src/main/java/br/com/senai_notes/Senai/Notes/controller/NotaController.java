@@ -52,9 +52,7 @@ public class NotaController {
     // READ
     // Método para mostrar nota
     @GetMapping("/{email}")
-
     @Operation(summary = "Listar anotações por usuário")
-
     public  ResponseEntity<?> listarNotasUsuario(@PathVariable String email){
         List<ListarAnotacoesDto> notas = notaService.listarAnotacoesPorUsuario(email);
         return ResponseEntity.ok(notas);
@@ -63,10 +61,8 @@ public class NotaController {
     // UPDATE
     // Método para atualizar nota
     @PutMapping("/{id}")
-
     @Operation(summary = "Editar Nota por id")
-
-    public ResponseEntity<?> editarNota(@PathVariable Integer id, @RequestBody Nota notaAtualizada){
+    public ResponseEntity<?> editarNota(@PathVariable Integer id, @RequestBody CadastrarEditarAnotacaoDto notaAtualizada){
         Nota notaExistente = notaService.atualizarNota(id, notaAtualizada);
         return ResponseEntity.ok(notaExistente);
     }
@@ -76,8 +72,7 @@ public class NotaController {
     @DeleteMapping("/{id}")
     // Deletar
     @Operation(summary = "Deletar Nota por id")
-
-    public ResponseEntity<?> removerNota(@PathVariable Integer id){
+    public ResponseEntity<Void> removerNota(@PathVariable Integer id){
         notaService.removerNota(id);
         return ResponseEntity.noContent().build();
     }
