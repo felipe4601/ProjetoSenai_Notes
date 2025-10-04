@@ -136,9 +136,7 @@ public class NotaService {
         List<TagNota> associacoes = new ArrayList<>();
         List<Tag> tagsAssociadas = tagRepository.findAllByNomeInAndUsuarioEmail(dto.getTags(), dto.getEmail());
 
-        if(dto.getTags().size() != tagsAssociadas.size()){
-            throw new ResourceNotFoundException("Tag");
-        }
+
         for(Tag tags: tagsAssociadas){
             TagNota associacao = new TagNota();
             associacao.setTag(tags);

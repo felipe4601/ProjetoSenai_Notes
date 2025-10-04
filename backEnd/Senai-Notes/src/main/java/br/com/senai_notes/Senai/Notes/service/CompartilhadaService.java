@@ -2,12 +2,14 @@ package br.com.senai_notes.Senai.Notes.service;
 
 import br.com.senai_notes.Senai.Notes.model.Compartilhada;
 import br.com.senai_notes.Senai.Notes.repository.CompartilhadaRepository;
+import jakarta.persistence.Column;
 import org.springframework.stereotype.Service;
 
 @Service
-public class    CompartilhadaService {
+public class CompartilhadaService {
 
-    private final CompartilhadaRepository compartilhadaRepository;
+    private final  CompartilhadaRepository compartilhadaRepository;
+
 
     public CompartilhadaService(CompartilhadaRepository comp) {
         compartilhadaRepository = comp;
