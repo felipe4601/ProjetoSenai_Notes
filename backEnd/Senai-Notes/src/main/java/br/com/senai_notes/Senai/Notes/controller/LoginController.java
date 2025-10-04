@@ -2,7 +2,7 @@ package br.com.senai_notes.Senai.Notes.controller;
 
 import br.com.senai_notes.Senai.Notes.dtos.login.LoginRequest;
 import br.com.senai_notes.Senai.Notes.dtos.login.LoginResponseDto;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -47,11 +47,10 @@ public class LoginController {
 
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("urbanswift-api")
+                .issuer("senai_notes")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(validade)) // Quando expira.
                 .subject(auth.getName())
-                .claim("roles", auth.getAuthorities())
                 .build();
 
         JwsHeader jwsHeader = JwsHeader.with(MacAlgorithm.HS256).build();
