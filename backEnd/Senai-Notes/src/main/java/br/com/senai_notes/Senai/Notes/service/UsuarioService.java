@@ -25,8 +25,8 @@ public class UsuarioService {
 
         String senha = passwordEncoder.encode(usuario.getSenha());
 
-        usuarioCriado.setEmail(usuario.getEmail());
         usuarioCriado.setSenha(senha);
+        usuarioCriado.setEmail(usuario.getEmail());
         usuarioCriado.setNome(usuario.getNome());
 
         usuarioRepository.save(usuarioCriado);

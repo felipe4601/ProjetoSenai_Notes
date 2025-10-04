@@ -8,6 +8,7 @@ import br.com.senai_notes.Senai.Notes.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tag")
 @io.swagger.v3.oas.annotations.tags.Tag(name = "Tags", description = "Endpoints para gestão de tags")
+@SecurityRequirement(name = "bearerAuth")
 public class TagController {
     private final TagService tagService;
 

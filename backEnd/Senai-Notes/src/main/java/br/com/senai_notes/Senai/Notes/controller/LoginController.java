@@ -3,6 +3,7 @@ package br.com.senai_notes.Senai.Notes.controller;
 import br.com.senai_notes.Senai.Notes.dtos.login.LoginRequest;
 import br.com.senai_notes.Senai.Notes.dtos.login.LoginResponseDto;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +35,7 @@ public class LoginController {
 
 
     @PostMapping()
+    @ApiResponse(responseCode = "200", description = "Bem-vindo")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
         var authToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha());
