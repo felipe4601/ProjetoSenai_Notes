@@ -1,7 +1,10 @@
 package br.com.senai_notes.Senai.Notes.controller;
 
 import br.com.senai_notes.Senai.Notes.dtos.login.LoginRequest;
+import br.com.senai_notes.Senai.Notes.dtos.login.LoginResponseDto;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +22,7 @@ import java.time.Instant;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name ="Login", description = "Tela de login")
 public class LoginController {
     private final AuthenticationManager authenticationManager;
     private final JwtEncoder jwtEncoder;
@@ -31,6 +35,7 @@ public class LoginController {
 
 
     @PostMapping()
+    @ApiResponse(responseCode = "200", description = "Bem-vindo")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
         var authToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha());
@@ -53,6 +58,6 @@ public class LoginController {
 
         String token = this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 }

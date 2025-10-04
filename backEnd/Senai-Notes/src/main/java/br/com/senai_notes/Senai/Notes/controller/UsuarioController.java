@@ -6,6 +6,7 @@ import br.com.senai_notes.Senai.Notes.dtos.usuario.ListarUsuarioDto;
 import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuario")
+@SecurityRequirement(name = "bearerAuth")
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
