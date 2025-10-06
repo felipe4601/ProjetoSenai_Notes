@@ -25,29 +25,6 @@ public class TagService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    //Create
-    public Tag criarTag(Tag tag){
-        return tagRepository.save(tag);
-    }
-    //Read
-    public List<Tag> buscarTagNota(){
-        return tagRepository.findAll();
-    }
-    //Update
-
-    //Delete
-    // CRUD
-    // CREATE
-    // Método para cadastrar tag
-    public Tag cadastrarTag(Tag novaTag){
-       if(novaTag.getUsuario()!=null){
-            Integer idUsuario = novaTag.getUsuario().getIdUsuario();
-           Usuario usuarioAssociado = usuarioRepository.findById(idUsuario)
-                   .orElseThrow(() -> new ResourceNotFoundException("Usuário"));
-       }
-
-       return tagRepository.save(novaTag);
-    }
     // Dtos
     // CREATE
     // Método para cadastrar tag usando dto
