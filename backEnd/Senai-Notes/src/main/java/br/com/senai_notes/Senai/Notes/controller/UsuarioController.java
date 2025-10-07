@@ -7,8 +7,10 @@ import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuario")
+@Tag(name = "Usuario", description = "Metodos para controle de usuario")
 @SecurityRequirement(name = "bearerAuth")
 public class UsuarioController {
     private final UsuarioService usuarioService;
@@ -38,6 +41,7 @@ public class UsuarioController {
         return ResponseEntity.ok(user);
     }
     @GetMapping("/{email}")
+    @PreAuthorize("#email == authentication.getName()")
     @Operation(summary = "Buscar Usuario por email")
     public ResponseEntity<?> buscarUsuarioPorEmail(@PathVariable String email) {
         ListarUsuarioDto usuarioBuscado = usuarioService.buscarUsuarioPorEmail(email);

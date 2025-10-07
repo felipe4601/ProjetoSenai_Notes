@@ -9,10 +9,12 @@ import br.com.senai_notes.Senai.Notes.service.NotaService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +31,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/notas")
+@Tag(name = "Notas", description = "Metodos para controle de Notas")
 @SecurityRequirement(name = "bearerAuth")
 public class NotaController {
     private final NotaService notaService;
@@ -55,6 +58,7 @@ public class NotaController {
     // Método para mostrar nota
     @GetMapping("/{email}")
     @Operation(summary = "Listar anotações por usuário")
+    @PreAuthorize("#email == authentication.getName()")
     public  ResponseEntity<?> listarNotasUsuario(@PathVariable String email){
         List<ListarAnotacoesDto> notas = notaService.listarAnotacoesPorUsuario(email);
         return ResponseEntity.ok(notas);
