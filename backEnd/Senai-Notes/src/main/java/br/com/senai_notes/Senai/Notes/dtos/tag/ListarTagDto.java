@@ -11,5 +11,5 @@ import java.util.List;
 public class ListarTagDto {
     private Integer id;
     private String nome;
-    private ListarUsuarioDto usuario;
+
 }

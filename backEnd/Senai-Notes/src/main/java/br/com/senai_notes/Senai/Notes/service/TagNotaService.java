@@ -27,39 +27,5 @@ public class TagNotaService {
         this.tagNotaRepository = tagNotaRepository;
     }
 
-<<<<<<< HEAD
-=======
-        List<TagNota> novasAssociacoes = new ArrayList<>();
-        List<Tag> tagsAssociadas = tagRepository.findAllById(dto.getIdTag());
-        Nota notasAssociada = notaRepository.findById(dto.getIdNota())
-                .orElseThrow(() -> new ResourceNotFoundException("Nota"));
 
-        if (tagsAssociadas.size() != dto.getIdTag().size()) {
-            throw new ResourceNotFoundException("Pelo menos uma tag não foi encontrada");
-        }
-
-        for (Tag tag : tagsAssociadas) {
-            TagNota tagAnotacoes = new TagNota();
-            tagAnotacoes.setNota(notasAssociada);
-            tagAnotacoes.setTag(tag);
-            novasAssociacoes.add(tagAnotacoes);
-
-        }
-        return tagNotaRepository.saveAll(novasAssociacoes);
-    }
-
-
-    //Create
-    public TagNota criarTagNota(TagNota tagNota){
-       return tagNotaRepository.save(tagNota);
-
-    }
-    //Read
-    public List<TagNota> buscarTagNota(){
-        return tagNotaRepository.findAll();
-    }
-    //Update
-
-    //Delete
->>>>>>> 614082a71936a230b9bf3c7c0ed01fa9c1d5c54b
 }

@@ -1,9 +1,15 @@
 package br.com.senai_notes.Senai.Notes.controller;
 
 
+import br.com.senai_notes.Senai.Notes.dtos.email.ResetarSenhaDto;
+import br.com.senai_notes.Senai.Notes.dtos.usuario.CadastrarEditarUsuarioDto;
+import br.com.senai_notes.Senai.Notes.dtos.usuario.ListarUsuarioDto;
 import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +20,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuario")
+@Tag(name = "Usuario", description = "Metodos para controle de usuario")
+@SecurityRequirement(name = "bearerAuth")
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
@@ -23,7 +31,7 @@ public class UsuarioController {
     //Post - Criar Usuario
     @PostMapping
     @Operation(summary = "Criar Usuario")
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> criarUsuario(@RequestBody CadastrarEditarUsuarioDto usuario) {
         Usuario user = usuarioService.criarUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
@@ -37,15 +45,17 @@ public class UsuarioController {
     @GetMapping("/{email}")
     @PreAuthorize("#email == authentication.getName()")
     @Operation(summary = "Buscar Usuario por email")
-    public Optional<Usuario> buscarUsuarioPorEmail(@PathVariable String email) {
-        return usuarioService.buscarUsuarioPorEmail(email);
+    public ResponseEntity<?> buscarUsuarioPorEmail(@PathVariable String email) {
+        ListarUsuarioDto usuarioBuscado = usuarioService.buscarUsuarioPorEmail(email);
+
+        return ResponseEntity.ok(usuarioBuscado);
 
     }
     //Put - Atualizar Usuario
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar Usuario")
-    public ResponseEntity<?> atualizarUsuario(@RequestBody Usuario usuario, @PathVariable Integer id) {
-        Usuario user = usuarioService.atualizarUsuario(usuario, id);
+    public ResponseEntity<?> atualizarUsuario(@RequestBody CadastrarEditarUsuarioDto usuario, @PathVariable Integer id) {
+        CadastrarEditarUsuarioDto user = usuarioService.atualizarUsuario(usuario, id);
         return ResponseEntity.ok(user);
     }
     //Delete - Deletar Usuario
@@ -54,5 +64,11 @@ public class UsuarioController {
     public ResponseEntity<?> deletarUsuario(@PathVariable Integer id) {
         Usuario user = usuarioService.deletarUsuarioPorId(id);
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@Valid @RequestBody ResetarSenhaDto resetarSenhaDTO) {
+        usuarioService.recuperarSenha(resetarSenhaDTO.getEmail());
+        return ResponseEntity.ok("Se um usuário com este e-mail existir, uma nova senha será enviada.");
     }
 }

@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -40,7 +41,7 @@ public class Nota {
     private OffsetDateTime dataEdicao;
 
     @Column(name = "estado_nota", nullable = false, columnDefinition = "TEXT")
-    private String estadoNota;
+    private boolean estadoNota;
 
     @Column(name = "data_criacao", nullable = false)
     private OffsetDateTime dataCriacao;
@@ -58,7 +59,8 @@ public class Nota {
     @JoinColumn(name = "id_compartilhada", nullable = true)
     private Compartilhada compartilhada;
 
-    @OneToMany(mappedBy = "nota")
-    private List<TagNota> associacoes;
+    @OneToMany(mappedBy = "nota", fetch = FetchType.LAZY)
+    private List<TagNota> tagAnotacao = new ArrayList<>();
+
 
 }

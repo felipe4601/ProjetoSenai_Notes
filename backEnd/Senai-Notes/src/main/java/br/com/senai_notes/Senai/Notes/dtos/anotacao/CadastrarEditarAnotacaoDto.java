@@ -10,6 +10,6 @@ public class CadastrarEditarAnotacaoDto {
     private String descricao;
     private String imagem;
     private String estadoNota;
-    private String email;
+    private Integer usuarioId;
     private List<String> tags;
 }

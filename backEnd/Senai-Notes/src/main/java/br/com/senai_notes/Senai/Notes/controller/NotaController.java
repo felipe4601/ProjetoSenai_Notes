@@ -2,33 +2,28 @@ package br.com.senai_notes.Senai.Notes.controller;
 
 
 import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
-import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacoesDto;
-import br.com.senai_notes.Senai.Notes.dtos.tag.CadastrarEditarTagDto;
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacaoDto;
+
 import br.com.senai_notes.Senai.Notes.model.Nota;
 import br.com.senai_notes.Senai.Notes.service.NotaService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.constraints.Email;
-import lombok.Getter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.constraints.Email;
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/notas")
+@Tag(name = "Notas", description = "Metodos para controle de Notas")
 @SecurityRequirement(name = "bearerAuth")
 public class NotaController {
     private final NotaService notaService;
@@ -47,24 +42,26 @@ public class NotaController {
             @ApiResponse(responseCode = "201", description = "Dados invalídos")
 
     })
-    public ResponseEntity<Nota> cadastrarNota(@RequestBody CadastrarEditarAnotacaoDto dto){
-        Nota novaNota = notaService.cadastrarTagAnotacaoDto(dto);
+    public ResponseEntity<?> cadastrarNota(@RequestBody CadastrarEditarAnotacaoDto dto){
+        CadastrarEditarAnotacaoDto novaNota = notaService.cadastrarAnotacaoDto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaNota);
     }
     // READ
     // Método para mostrar nota
     @GetMapping("/{email}")
     @Operation(summary = "Listar anotações por usuário")
-
+    @PreAuthorize("#email == authentication.getName()")
     public  ResponseEntity<?> listarNotasUsuario(@PathVariable String email){
-        List<ListarAnotacoesDto> notas = notaService.listarAnotacoesPorUsuario(email);
+        List<ListarAnotacaoDto> notas = notaService.listarAnotacoesPorUsuario(email);
         return ResponseEntity.ok(notas);
     }
 
     // UPDATE
     // Método para atualizar nota
     @PutMapping("/{id}")
+
     @Operation(summary = "Editar Nota por id")
+
     public ResponseEntity<?> editarNota(@PathVariable Integer id, @RequestBody CadastrarEditarAnotacaoDto notaAtualizada){
         Nota notaExistente = notaService.atualizarNota(id, notaAtualizada);
         return ResponseEntity.ok(notaExistente);
