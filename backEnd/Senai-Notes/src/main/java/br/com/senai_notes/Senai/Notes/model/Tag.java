@@ -27,7 +27,6 @@ public class Tag {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_usuario",nullable = false)
-
     private Usuario  usuario;
 
 

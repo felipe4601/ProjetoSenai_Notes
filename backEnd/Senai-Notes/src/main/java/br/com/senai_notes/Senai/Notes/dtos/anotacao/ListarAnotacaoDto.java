@@ -7,13 +7,13 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
-public class ListarAnotacoesDto {
+public class ListarAnotacaoDto {
     private Integer id;
     private String titulo;
     private String descricao;
     private String imagem;
-    private String estadoNota;
     private OffsetDateTime dataEdicao;
-    private List<String> tag;
+    private OffsetDateTime dataCriacao;
+    private List<ListarTagDto> tag;
 
 }

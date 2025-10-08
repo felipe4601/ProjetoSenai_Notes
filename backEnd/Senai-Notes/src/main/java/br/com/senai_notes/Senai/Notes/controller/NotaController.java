@@ -2,16 +2,13 @@ package br.com.senai_notes.Senai.Notes.controller;
 
 
 import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
-import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacoesDto;
-import br.com.senai_notes.Senai.Notes.dtos.tag.CadastrarEditarTagDto;
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacaoDto;
 import br.com.senai_notes.Senai.Notes.model.Nota;
 import br.com.senai_notes.Senai.Notes.service.NotaService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.Email;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,13 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.constraints.Email;
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -60,7 +50,7 @@ public class NotaController {
     @Operation(summary = "Listar anotações por usuário")
     @PreAuthorize("#email == authentication.getName()")
     public  ResponseEntity<?> listarNotasUsuario(@PathVariable String email){
-        List<ListarAnotacoesDto> notas = notaService.listarAnotacoesPorUsuario(email);
+        List<ListarAnotacaoDto> notas = notaService.listarAnotacoesPorUsuario(email);
         return ResponseEntity.ok(notas);
     }
 

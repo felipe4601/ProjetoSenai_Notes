@@ -2,7 +2,8 @@ package br.com.senai_notes.Senai.Notes.service;
 
 
 import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
-import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacoesDto;
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacaoDto;
+import br.com.senai_notes.Senai.Notes.dtos.tag.ListarTagDto;
 import br.com.senai_notes.Senai.Notes.exception.ResourceNotFoundException;
 import br.com.senai_notes.Senai.Notes.model.*;
 import br.com.senai_notes.Senai.Notes.repository.*;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class NotaService {
@@ -118,39 +121,63 @@ public class NotaService {
     // DTOS
     // CREATE
     // Método para cadastrar anotação com associação de tag e usuário
-    public Nota cadastrarTagAnotacaoDto(CadastrarEditarAnotacaoDto dto){
+    public CadastrarEditarAnotacaoDto cadastrarAnotacaoDto(CadastrarEditarAnotacaoDto dto){
         Nota novaNota = new Nota();
-        // Mapeando dados para a anotação
-        novaNota.setTitulo(dto.getTitulo());
-        novaNota.setDescricao(dto.getDescricao());
-        novaNota.setImagem(dto.getImagem());
-        novaNota.setDataEdicao(OffsetDateTime.now());
-        novaNota.setEstadoNota(dto.getEstadoNota());
-        novaNota.setDataCriacao(OffsetDateTime.now());
-        Usuario usuarioAssociado = usuarioRepository.findByEmail(dto.getEmail())
+        Usuario usuarioAssociado = usuarioRepository.findById(dto.getUsuarioId())
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário"));
         novaNota.setUsuario(usuarioAssociado);
         notaRepository.save(novaNota);
-        List<TagNota> associacoes = new ArrayList<>();
-        List<Tag> tagsAssociadas = tagRepository.findAllByNomeInAndUsuarioEmail(dto.getTags(), dto.getEmail());
 
-        for(Tag tags: tagsAssociadas){
-            TagNota associacao = new TagNota();
-            associacao.setTag(tags);
-            associacao.setNota(novaNota);
-            associacoes.add(associacao);
+        List<Tag> tagsExistentes = tagRepository.findAllByNomeInAndUsuarioIdUsuario(dto.getTags(), dto.getUsuarioId());
+        Set<String> nomesDasTagsExistentes = tagsExistentes.stream()
+                .map(Tag::getNome)
+                .collect(Collectors.toSet());
+
+        List<String> nomesDasNovasTags = dto.getTags().stream()
+                .filter(nome -> !nomesDasTagsExistentes.contains(nome))
+                .toList();
+        // Criando as novas tags
+        List<Tag> tagsSalvas = new ArrayList<>();
+        if(!nomesDasNovasTags.isEmpty()){
+            List<Tag> tagsParaSalvar = nomesDasNovasTags.stream()
+                    .map(nomeTag -> {
+                        Tag novaTag = new Tag();
+                        novaTag.setNome(nomeTag);
+                        novaTag.setUsuario(usuarioAssociado);
+                        return novaTag;
+                    })
+                    .toList();
+            tagsSalvas =  tagRepository.saveAll(tagsParaSalvar);
         }
-        tagNotaRepository.saveAll(associacoes);
-        return novaNota;
+        tagsExistentes.addAll(tagsSalvas);
+
+        if(!tagsExistentes.isEmpty()){
+            List<TagNota> associacoes = tagsExistentes.stream()
+                    .map(associacao -> {
+                        TagNota novaAssociacao = new TagNota();
+                        novaAssociacao.setNota(novaNota);
+                        novaAssociacao.setTag(associacao);
+                        return novaAssociacao;
+                    })
+                    .toList();
+            tagNotaRepository.saveAll(associacoes);
+        }
+
+        return dto;
     }
 
     // READ
      //Método para listar anotarções
-    public List<ListarAnotacoesDto> listarAnotacoesPorUsuario(String email) {
-        List<Nota> notas = notaRepository.findByUsuarioEmail(email);
-        List<ListarAnotacoesDto> anotacoes = new ArrayList<>();
+    public List<ListarAnotacaoDto> listarAnotacoesPorUsuario(String email) {
+        List<Nota> notas = notaRepository.findByUsuarioEmailCompleto(email);
+        List<ListarAnotacaoDto> anotacoes = new ArrayList<>();
+
+        return notas.stream()
+                .map(this::converterParaDto)
+                .collect(Collectors.toList());
+
         for (Nota nota : notas) {
-            ListarAnotacoesDto anotacao = new ListarAnotacoesDto();
+            ListarAnotacaoDto anotacao = new ListarAnotacaoDto();
             anotacao.setId(nota.getIdNota());
             anotacao.setTitulo(nota.getTitulo());
             anotacao.setDescricao(nota.getDescricao());
@@ -172,6 +199,31 @@ public class NotaService {
     }
 
 
+
+
+    private ListarAnotacaoDto converterParaDto(Nota nota){
+
+        ListarAnotacaoDto dto = new ListarAnotacaoDto();
+
+        dto.setId(nota.getIdNota());
+        dto.setTitulo(nota.getTitulo());
+        dto.setDescricao(nota.getDescricao());
+        dto.setImagem(nota.getImagem());
+        dto.setDataCriacao(nota.getDataCriacao());
+        dto.setDataEdicao(nota.getDataEdicao());
+
+        List<ListarTagDto> tagsDto = nota.getTagAnotacao().stream()
+                .map(associacao -> converterTagParaDto(associacao.getTag()))
+                .toList();
+        return dto;
+    }
+
+    private ListarTagDto converterTagParaDto(Tag tag){
+        ListarTagDto dto = new ListarTagDto();
+        dto.setId(tag.getIdTag());
+        dto.setNome(tag.getNome());
+        return dto;
+    }
 
     }
 

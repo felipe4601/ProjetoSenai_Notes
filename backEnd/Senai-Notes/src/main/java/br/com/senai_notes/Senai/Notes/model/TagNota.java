@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 
 @Entity
+@Table(name = "tag_nota", schema = "senai_notes")
 public class TagNota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,6 @@ public class TagNota {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tag")
     private Tag tag;
-
 
 
 }
