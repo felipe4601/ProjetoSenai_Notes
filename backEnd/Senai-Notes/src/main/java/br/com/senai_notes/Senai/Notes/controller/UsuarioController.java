@@ -6,6 +6,7 @@ import br.com.senai_notes.Senai.Notes.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class UsuarioController {
         return ResponseEntity.ok(user);
     }
     @GetMapping("/{email}")
+    @PreAuthorize("#email == authentication.getName()")
     @Operation(summary = "Buscar Usuario por email")
     public Optional<Usuario> buscarUsuarioPorEmail(@PathVariable String email) {
         return usuarioService.buscarUsuarioPorEmail(email);

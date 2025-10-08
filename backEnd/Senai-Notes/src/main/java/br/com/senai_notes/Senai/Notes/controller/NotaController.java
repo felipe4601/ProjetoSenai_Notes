@@ -2,11 +2,13 @@ package br.com.senai_notes.Senai.Notes.controller;
 
 
 import br.com.senai_notes.Senai.Notes.dtos.anotacao.CadastrarEditarAnotacaoDto;
+import br.com.senai_notes.Senai.Notes.dtos.anotacao.ListarAnotacoesDto;
 import br.com.senai_notes.Senai.Notes.dtos.tag.CadastrarEditarTagDto;
 import br.com.senai_notes.Senai.Notes.model.Nota;
 import br.com.senai_notes.Senai.Notes.service.NotaService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/notas")
+@SecurityRequirement(name = "bearerAuth")
 public class NotaController {
     private final NotaService notaService;
 
@@ -51,21 +54,18 @@ public class NotaController {
     // READ
     // Método para mostrar nota
     @GetMapping("/{email}")
-
     @Operation(summary = "Listar anotações por usuário")
 
     public  ResponseEntity<?> listarNotasUsuario(@PathVariable String email){
-        List<Nota> notas = notaService.listarPorUsuario(email);
+        List<ListarAnotacoesDto> notas = notaService.listarAnotacoesPorUsuario(email);
         return ResponseEntity.ok(notas);
     }
 
     // UPDATE
     // Método para atualizar nota
     @PutMapping("/{id}")
-
     @Operation(summary = "Editar Nota por id")
-
-    public ResponseEntity<?> editarNota(@PathVariable Integer id, @RequestBody Nota notaAtualizada){
+    public ResponseEntity<?> editarNota(@PathVariable Integer id, @RequestBody CadastrarEditarAnotacaoDto notaAtualizada){
         Nota notaExistente = notaService.atualizarNota(id, notaAtualizada);
         return ResponseEntity.ok(notaExistente);
     }
@@ -75,8 +75,7 @@ public class NotaController {
     @DeleteMapping("/{id}")
     // Deletar
     @Operation(summary = "Deletar Nota por id")
-
-    public ResponseEntity<?> removerNota(@PathVariable Integer id){
+    public ResponseEntity<Void> removerNota(@PathVariable Integer id){
         notaService.removerNota(id);
         return ResponseEntity.noContent().build();
     }
