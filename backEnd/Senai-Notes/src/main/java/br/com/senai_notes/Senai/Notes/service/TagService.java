@@ -10,6 +10,8 @@ import br.com.senai_notes.Senai.Notes.model.Usuario;
 import br.com.senai_notes.Senai.Notes.repository.TagRepository;
 import br.com.senai_notes.Senai.Notes.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.List;
@@ -30,10 +32,10 @@ public class TagService {
     // Método para cadastrar tag usando dto
     public Tag cadastrarTagDto(CadastrarEditarTagDto dto){
         Tag novaTag = new Tag();
-        novaTag.setNome(dto.getNome());
-        Usuario usuarioAssciado = usuarioRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário"));
+        Usuario usuarioAssciado = usuarioRepository.findById(dto.getIdUsuario())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
         novaTag.setUsuario(usuarioAssciado);
+        novaTag.setNome(dto.getNome());
         return tagRepository.save(novaTag);
     }
 
@@ -59,7 +61,7 @@ public class TagService {
     // Método para buscar tag por id
     public Tag buscarTagPorId(Integer id){
         return tagRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Tag"));
+                .orElseThrow(() -> new ResourceNotFoundException("Tag não encontrada"));
     }
 
    // UPDATE
@@ -68,12 +70,12 @@ public class TagService {
         Tag tagExistente = buscarTagPorId(id);
 
         tagExistente.setNome(validacaoDeCampos(tagExistente.getNome(),dto.getNome()));
-        if(dto.getEmail() != null){
-            Usuario usuarioAssociado = usuarioRepository.findByEmail(dto.getEmail())
+        if(dto.getIdUsuario() != null){
+            Usuario usuarioAssociado = usuarioRepository.findById(dto.getIdUsuario())
                     .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
             tagExistente.setUsuario(usuarioAssociado);
         }
-
+         tagExistente.setNome(validacaoDeCampos(tagExistente.getNome(),dto.getNome()));
         return tagRepository.save(tagExistente);
    }
 
@@ -87,15 +89,8 @@ public class TagService {
 
     private ListarTagDto converterParaListagemDto(Tag tag){
         ListarTagDto dto = new ListarTagDto();
-        ListarUsuarioDto usuarioDto = new ListarUsuarioDto();
-
-        usuarioDto.setId(tag.getUsuario().getIdUsuario());
-        usuarioDto.setEmail(tag.getUsuario().getEmail());
-
         dto.setId(tag.getIdTag());
         dto.setNome(tag.getNome());
-        dto.setUsuario(usuarioDto);
-
         return dto;
 
     }

@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class CadastrarEditarTagDto {
     private String nome;
-    private String email;
+    private Integer idUsuario;
+
+
 }
