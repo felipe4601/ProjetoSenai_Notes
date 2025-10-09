@@ -44,7 +44,6 @@ public class UsuarioService {
     public ListarUsuarioDto buscarUsuarioPorEmail(String email){
         Usuario usuarioBuscado = usuarioRepository.findByEmail(email)
                 .orElseThrow(()-> new ResourceNotFoundException("Email não encontrado"));
-
         return converterParaListagemDto(usuarioBuscado);
     }
     public Usuario buscarUsuarioPorId(Integer id){
@@ -58,7 +57,7 @@ public class UsuarioService {
         usuarioAntigo.setEmail(usuario.getEmail());
         String senha  = passwordEncoder.encode(usuario.getSenha());
         usuarioAntigo.setSenha(senha);
-       usuarioAntigo.setNome(usuario.getNome());
+        usuarioAntigo.setNome(usuario.getNome());
 
         usuarioRepository.save(usuarioAntigo);
 
@@ -76,14 +75,11 @@ public class UsuarioService {
     //converter
     private ListarUsuarioDto converterParaListagemDto(Usuario usuario) {
         ListarUsuarioDto dto = new ListarUsuarioDto();
-
         dto.setNome(usuario.getNome());
         dto.setEmail(usuario.getEmail());
         dto.setId(usuario.getIdUsuario());
-
         return dto;
     }
-
     // Método para recuperar
     public void recuperarSenha(String email) {
         usuarioRepository.findByEmail(email).ifPresent(usuario -> {
@@ -94,6 +90,4 @@ public class UsuarioService {
             emailService.enviarEmail(usuario.getEmail(), novaSenha);
         });
     }
-
-
 }
