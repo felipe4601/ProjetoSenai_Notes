@@ -68,6 +68,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.POST ,"/api/usuario/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.POST ,"/api/usuario/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.POST ,"/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.POST ,"/change-password").permitAll()
                         .requestMatchers(HttpMethod.POST ,"/api/usuario").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()//permitAll() todo vericar autorização

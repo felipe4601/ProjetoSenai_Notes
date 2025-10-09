@@ -85,7 +85,7 @@ public class NotaService {
         notaExistente.setImagem(validacaoDeCampos(notaExistente.getImagem(), dto.getImagem()));
         // Atualizando data de edição
         notaExistente.setDataEdicao(OffsetDateTime.now());
-
+        notaExistente.setEstadoNota("Salva");
         // Atualizei a nota
        notaRepository.save(notaExistente);
 
@@ -142,7 +142,7 @@ public class NotaService {
         novaNota.setImagem(dto.getImagem());
         novaNota.setDataCriacao(OffsetDateTime.now());
         novaNota.setDataEdicao(OffsetDateTime.now());
-        novaNota.setEstadoNota(true);
+        novaNota.setEstadoNota("Salva");
 
         notaRepository.save(novaNota);
 

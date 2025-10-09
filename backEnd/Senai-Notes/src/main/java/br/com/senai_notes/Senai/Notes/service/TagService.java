@@ -95,8 +95,8 @@ public class TagService {
 
     }
 
-    private String validacaoDeCampos(String existente, String novo){
-        if(novo != null && !novo.isBlank()){
+    private String validacaoDeCampos(String existente, String novo) {
+        if (novo != null && !novo.isBlank()) {
             return novo;
         }
         return existente;
