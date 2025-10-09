@@ -70,6 +70,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST ,"/api/usuario/forgot-password").permitAll()
                         .requestMatchers(HttpMethod.POST ,"/api/usuario/forgot-password").permitAll()
                         .requestMatchers(HttpMethod.POST ,"/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.POST ,"/change-password").permitAll()
                         .requestMatchers(HttpMethod.POST ,"/api/usuario").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()//permitAll() todo vericar autorização

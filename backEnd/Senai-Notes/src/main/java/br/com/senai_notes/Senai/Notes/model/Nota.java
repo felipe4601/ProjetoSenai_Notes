@@ -41,7 +41,7 @@ public class Nota {
     private OffsetDateTime dataEdicao;
 
     @Column(name = "estado_nota", nullable = false, columnDefinition = "TEXT")
-    private boolean estadoNota;
+    private String estadoNota;
 
     @Column(name = "data_criacao", nullable = false)
     private OffsetDateTime dataCriacao;

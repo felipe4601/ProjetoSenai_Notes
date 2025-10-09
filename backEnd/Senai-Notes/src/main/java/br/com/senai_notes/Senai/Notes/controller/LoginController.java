@@ -57,7 +57,7 @@ public class LoginController {
         JwsHeader jwsHeader = JwsHeader.with(MacAlgorithm.HS256).build();
 
         String token = this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
-
+        System.out.println("Acesso liberado");
         return ResponseEntity.ok(new LoginResponseDto(token));
     }
 }
