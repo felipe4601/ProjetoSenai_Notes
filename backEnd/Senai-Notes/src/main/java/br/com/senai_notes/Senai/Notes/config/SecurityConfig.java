@@ -76,8 +76,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated()//permitAll() todo vericar autorização
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
-
-
         return http.build();
     }
 
